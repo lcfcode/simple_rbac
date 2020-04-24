@@ -1,0 +1,90 @@
+###########################
+#测试
+###########################
+#config/dev.php
+#public/index.php
+push_packagist.sh
+
+###########################
+#附加日志等
+###########################
+tools/logs/*
+!tools/logs/readme.md
+
+###########################
+Android Studio
+###########################
+*.iml
+.gradle
+/local.properties
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+.DS_Store
+app/build
+/captures
+.externalNativeBuild
+
+###########################
+# PhpStorm
+###########################
+.idea/*
+
+###########################
+# IntelliJ IDEA
+###########################
+.idea/*
+*.iml
+out/*
+# 打包的时候生成的
+src/META-INF/*
+
+###########################
+# JetBrains PyCharm
+###########################
+.idea/*
+__pycache__/*
+*/__pycache__
+
+###########################
+# Eclipse
+###########################
+.buildpath
+.project
+.metadata
+*.bak
+.classpath
+.settings/*
+
+###########################
+# Composer
+###########################
+vendor/*
+system/.gitignore
+system/composer.json
+system/README.md
+composer.lock
+
+###########################
+# Windows Files
+###########################
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+###########################
+# Sublime Text
+###########################
+*.sublime-project
+*.sublime-workspace
+
+###########################
+# Netbeans
+###########################
+nbproject/*

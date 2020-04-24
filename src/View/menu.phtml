@@ -1,0 +1,56 @@
+<?php
+/** @var string $menuId */
+/** @var string $menuAddUrl */
+/** @var string $menuListUrl */
+/** @var array $info */
+$menuAddUrl = $this->url . 'menuAdd';
+$menuListUrl = $this->url . 'menu';
+$_str = '';
+if ($info) {
+    foreach ($info as $item) {
+        $status = $item['is_show'] == 1 ? '开启' : '隐藏';
+        $bg = $item['parent_id'] == '0' ? 'class="first_bg"' : '';
+        $ids = ($item['parent_id'] == '0' && empty($menuId)) ? '<a target="_blank" href="' . $menuListUrl . '?id=' . $item['id'] . '">' . $item['id'] . '</a>' : $item['id'];
+        $_str .= <<<STR
+<tr {$bg}>
+    <td patent_id="{$item['parent_id']}">{$ids}</td>
+    <td><input class="menu_sort" type="tel" style="width: 70px" value="{$item['sort']}" that_id="{$item['id']}"></td>
+    <td>{$item['name']}</td>
+    <td>{$item['app']}</td>
+    <td>{$item['control']}</td>
+    <td>{$item['action']}</td>
+    <td>{$item['url_param']}</td>
+    <td>{$status}</td>
+    <td>
+        <a href='{$menuAddUrl}?parent_id={$item['id']}'>添加子菜单</a> |
+        <a href='{$menuAddUrl}?parent_id={$item['parent_id']}&id={$item['id']}'>编辑</a> |
+        <a href='javascript:void(0);' class="a-post" post-url="{$menuAddUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
+    </td>
+</tr>
+STR;
+    }
+}
+
+return <<<DDD
+<a href="{$menuListUrl}">菜单列表</a>
+<a href="{$menuAddUrl}">增加菜单</a>
+<br><br>
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>排序</th>
+        <th>菜单名称</th>
+        <th>应用</th>
+        <th>控制器</th>
+        <th>方法</th>
+        <th>参数</th>
+        <th>状态</th>
+        <th width="180">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        {$_str}
+    </tbody>
+</table>
+DDD;

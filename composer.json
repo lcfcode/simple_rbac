@@ -1,0 +1,20 @@
+{
+  "name": "lcfdev/simplerbac",
+  "description": "简单rbac",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "lcfdev",
+      "email": "lcf@jionx.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rbac\\": "src/"
+    }
+  }
+}

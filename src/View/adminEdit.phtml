@@ -1,0 +1,98 @@
+<?php
+/** @var string $addUrl */
+/** @var string $adminUrl */
+/** @var array $role */
+/** @var array $list */
+/** @var array $accessArr */
+
+$adminUrl = $this->url . 'admin';
+$addUrl = $this->url . 'adminAdd';
+
+
+if ($list['status']) {
+    $status1 = 'checked';
+    $status2 = '';
+} else {
+    $status1 = '';
+    $status2 = 'checked';
+}
+
+$_str = '';
+if ($role) {
+    foreach ($role as $roleRow) {
+        if(in_array($roleRow['id'],$accessArr)){
+            $_str .= '&nbsp;<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]" checked >' . $roleRow['name'];
+        }else{
+            $_str .= '&nbsp;<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]">' . $roleRow['name'];
+        }
+    }
+} else {
+    $_str .= '没有添加权限信息';
+}
+
+return <<<HTML
+<a href="{$adminUrl}">管理员列表</a>
+<a href="javascript:void(0);">管理员编辑</a>
+<form method="post">
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>管理员昵称</th>
+            <td>
+                <input type="text" name="nickname"
+                       value="{$list['nickname']}">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>密码</th>
+            <td>
+                <input type="password" name="passwd"
+                       value="">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>手机号码</th>
+            <td>
+                <input type="tel" name="phone"
+                       value="{$list['phone']}" maxlength="11">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>姓名</th>
+            <td>
+                <input type="text" name="name"
+                       value="{$list['name']}">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>角色</th>
+            <td>
+                {$_str}
+            </td>
+        </tr>
+        <tr>
+            <th>状态</th>
+            <td>
+                <input type="radio" name="status"
+                       value="1" {$status1}> 有效
+                <input type="radio" name="status" value="0" {$status2}> 无效
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+    </div>
+
+    <div>
+        <input type="hidden" name="id" value="{$list['id']}">
+        <button type="button" class="ajax-post" post_url="{$addUrl}" list_url="{$adminUrl}">
+            保存
+        </button>
+        <button type="button" onclick="javascript:history.go(-1)">返回</button>
+    </div>
+</form>
+HTML;

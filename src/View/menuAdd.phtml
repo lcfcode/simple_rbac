@@ -1,0 +1,99 @@
+<?php
+/** @var string $menuUrl */
+/** @var string $addUrl */
+/** @var array $upperLevel */
+
+$menuUrl = $this->url . 'menu';
+$addUrl = $this->url . 'menuAdd';
+
+$_str = '';
+foreach ($upperLevel as $upperLevelRow) {
+    $_str .= '<option value="' . $upperLevelRow['id'] . '" ' . $upperLevelRow['selected'] . '>' . $upperLevelRow['name'] . '</option>';
+}
+
+return <<<HTML
+<a href="{$menuUrl}">菜单列表</a>
+<a href="javascript:void(0);">增加菜单</a>
+<form method="post">
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>上级</th>
+            <td>
+                <select name="parent_id">
+                    <option value="0">/</option>
+                   {$_str}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>名称</th>
+            <td>
+                <input type="text" name="name">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>应用</th>
+            <td>
+                <input type="text" name="app">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>控制器</th>
+            <td>
+                <input type="text" name="control">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>方法</th>
+            <td>
+                <input type="text" name="action">
+                <span>*</span>
+            </td>
+        </tr>
+        <tr>
+            <th>参数</th>
+            <td>
+                <input type="text" name="url_param">
+                <span class="span-text">例:id=3&amp;cid=3</span>
+            </td>
+
+        </tr>
+        <tr>
+            <th>排序</th>
+            <td>
+                <input type="text" name="sort">
+            </td>
+        </tr>
+         <tr>
+            <th>是否显示</th>
+            <td>
+                <input type="radio" name="is_show" value="1" checked> 显示
+                <input type="radio" name="is_show" value="0"> 隐藏
+            </td>
+        </tr>
+        <tr>
+            <th>是否验证权限</th>
+            <td>
+                <input type="radio" name="is_verify" value="1" checked> 是
+                <input type="radio" name="is_verify" value="0"> 否
+            </td>
+        </tr>
+        <tr>
+            <th>备注</th>
+            <td>
+                <textarea name="remark"></textarea>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    <div>
+        <button type="button" class="ajax-post" post_url="{$addUrl}" list_url="{$menuUrl}">保存</button>
+        <button type="button" onclick="javascript:history.go(-1)">返回</button>
+    </div>
+</form>
+HTML;

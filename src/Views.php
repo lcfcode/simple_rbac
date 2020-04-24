@@ -130,7 +130,7 @@ class Views
         $param = !empty($save) ? $save : $_GET;
         $roleId = isset($param['role_id']) ? trim($param['role_id']) : '';
         if (empty($roleId)) {
-            exit('err');
+            trigger_error('没有角色id', E_USER_ERROR);
         }
         $menuIdArr = $this->getOperateTab()->roleMenuAccessVerify($roleId);
         $chooseMenuIdArr = [];

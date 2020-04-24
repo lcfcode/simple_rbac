@@ -63,7 +63,7 @@ class Tools
     public static function outputJson($code, $msg, $data = [])
     {
         header('Content-Type:application/json;charset=UTF-8');
-        exit(json_encode(['code' => $code, 'msg' => $msg, 'data' => $data], JSON_UNESCAPED_UNICODE));
+        return json_encode(['code' => $code, 'msg' => $msg, 'data' => $data], JSON_UNESCAPED_UNICODE);
     }
 
     public static function getUuid($prefix = null)

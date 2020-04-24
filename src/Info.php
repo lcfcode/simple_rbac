@@ -83,7 +83,7 @@ class Info
         $menuArr = Tools::arraySort($menuArr, 'sort', SORT_ASC);
         $parentArr = Tools::getSubset($menuArr);
         if (empty($parentArr)) {
-            throw new \Exception('菜单没有数据', 500);
+            trigger_error('菜单没有数据', E_USER_ERROR);
         }
         $pageList = [];
         $menuList = [];
@@ -132,7 +132,7 @@ class Info
         }
         $roleList = $this->operateTab->roleAdminVerify(['admin_id' => $adminId]);
         if (empty($roleList)) {
-            throw new \Exception('没有授权信息', 500);
+            trigger_error('没有授权信息', E_USER_ERROR);
         }
         $menuTmpArr = [];
         foreach ($roleList as $roleId) {
@@ -152,7 +152,7 @@ class Info
 //            $menuTmpArr[$items['id']] = $items['id'];
 //        }
         if (empty($menuTmpArr)) {
-            throw new \Exception('没有授权菜单信息', 500);
+            trigger_error('没有授权菜单信息', E_USER_ERROR);
         }
         return $this->operateTab->menuWhereIn($menuTmpArr);
     }

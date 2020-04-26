@@ -1,0 +1,47 @@
+<?php
+//移除警告
+/** @var string $addRoleUrl */
+/** @var string $authorize */
+/** @var string $roleAdminUrl */
+/** @var array $adminList */
+
+$roleUrl = $this->url . 'role';
+$adminAddUrl = $this->url . 'adminAdd';
+
+
+$_str = '';
+if ($adminList) {
+    foreach ($adminList as $item) {
+        $_str .= <<<STT
+ <tr>
+    <td>{$item['admin_id']}</td>
+    <td>{$item['nickname']}</td>
+    <td>{$item['name']}</td>
+    <td>
+        <a href="{$adminAddUrl}?id={$item['admin_id']}">编辑</a>
+    </td>
+</tr>
+STT;
+    }
+}
+$name = isset($_GET['name']) ? $_GET['name'] : '';
+
+return <<<STR
+<a href="{$roleUrl}">角色列表</a>
+<span>{$name}角色下的管理员</span>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th class="id_width">管理员id</th>
+        <th>昵称</th>
+        <th>名称</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {$_str}
+    </tbody>
+</table>
+
+STR;

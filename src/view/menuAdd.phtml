@@ -13,12 +13,12 @@ foreach ($upperLevel as $upperLevelRow) {
 
 return <<<HTML
 <a href="{$menuUrl}">菜单列表</a>
-<a href="javascript:void(0);">增加菜单</a>
+<span>增加菜单</span>
 <form method="post">
     <table class="table">
         <tbody>
         <tr>
-            <th>上级</th>
+            <td class="id_width">上级</th>
             <td>
                 <select name="parent_id">
                     <option value="0">/</option>
@@ -27,35 +27,35 @@ return <<<HTML
             </td>
         </tr>
         <tr>
-            <th>名称</th>
+            <td>名称</td>
             <td>
                 <input type="text" name="name">
                 <span>*</span>
             </td>
         </tr>
         <tr>
-            <th>应用</th>
+            <td>应用</td>
             <td>
                 <input type="text" name="app">
                 <span>*</span>
             </td>
         </tr>
         <tr>
-            <th>控制器</th>
+            <td>控制器</td>
             <td>
                 <input type="text" name="control">
                 <span>*</span>
             </td>
         </tr>
         <tr>
-            <th>方法</th>
+            <td>方法</td>
             <td>
                 <input type="text" name="action">
                 <span>*</span>
             </td>
         </tr>
         <tr>
-            <th>参数</th>
+            <td>参数</td>
             <td>
                 <input type="text" name="url_param">
                 <span>例:id=3&amp;cid=3</span>
@@ -63,27 +63,27 @@ return <<<HTML
 
         </tr>
         <tr>
-            <th>排序</th>
+            <td>排序</td>
             <td>
                 <input type="text" name="sort">
             </td>
         </tr>
          <tr>
-            <th>是否显示</th>
+            <td>是否显示</td>
             <td>
                 <input type="radio" name="is_show" value="1" checked> 显示
                 <input type="radio" name="is_show" value="0"> 隐藏
             </td>
         </tr>
         <tr>
-            <th>是否验证权限</th>
+            <td>是否验证权限</td>
             <td>
                 <input type="radio" name="is_verify" value="1" checked> 是
                 <input type="radio" name="is_verify" value="0"> 否
             </td>
         </tr>
         <tr>
-            <th>备注</th>
+            <td>备注</td>
             <td>
                 <textarea name="remark"></textarea>
             </td>

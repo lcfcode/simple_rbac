@@ -2,10 +2,12 @@
 //移除警告
 /** @var string $addRoleUrl */
 /** @var string $authorize */
+/** @var string $roleAdminUrl */
 /** @var array $info */
 
 $authorize = $this->url . 'authorize';
 $addRoleUrl = $this->url . 'roleAdd';
+$roleAdminUrl = $this->url . 'roleAdmin';
 
 
 $_str = '';
@@ -19,8 +21,9 @@ if ($info) {
     <td>{$status}</td>
     <td>{$item['remark']}</td>
     <td>
-        <a href="{$authorize}?role_id={$item['id']}">权限设置</a>
-        <a href="{$addRoleUrl}?id={$item['id']}">编辑</a>
+        <a href="{$roleAdminUrl}?role_id={$item['id']}&name={$item['name']}">管理员列表</a>&nbsp;
+        <a href="{$authorize}?role_id={$item['id']}">权限设置</a>&nbsp;
+        <a href="{$addRoleUrl}?id={$item['id']}">编辑</a>&nbsp;
         <a href='javascript:void(0);' class="a-post" post-url="{$addRoleUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
     </td>
 </tr>
@@ -30,17 +33,17 @@ STT;
 
 
 return <<<STR
-<a href="javascript:void(0);">角色列表</a>
+<span>角色列表</span>
 <a href="{$addRoleUrl}">增加角色</a>
 
 <table class="table">
     <thead>
     <tr>
-        <th width="5%">ID</th>
+        <th class="id_width">ID</th>
         <th>名称</th>
         <th>状态</th>
         <th>备注</th>
-        <th width="180">操作</th>
+        <th>操作</th>
     </tr>
     </thead>
     <tbody>

@@ -7,12 +7,12 @@ $roleUrl = $this->url . 'role';
 
 return <<<STR
 <a href="{$roleUrl}">角色列表</a>
-<a href="javascript:void(0);">增加角色</a>
+<span>增加角色</span>
 <form method="post">
     <table class="table">
         <tbody>
         <tr>
-            <th>名称</th>
+            <td class="id_width">名称</td>
             <td>
                 <input type="text" name="name"
                        value="">
@@ -20,13 +20,13 @@ return <<<STR
             </td>
         </tr>
         <tr>
-            <th>备注</th>
+            <td>备注</td>
             <td>
                 <textarea name="remark"></textarea>
             </td>
         </tr>
         <tr>
-            <th>状态</th>
+            <td>状态</td>
             <td>
                 <input type="radio" name="status"
                        value="1" checked> 有效

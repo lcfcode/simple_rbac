@@ -22,8 +22,8 @@ if ($info) {
     <td>{$item['url_param']}</td>
     <td>{$status}</td>
     <td>
-        <a href='{$menuAddUrl}?parent_id={$item['id']}'>添加子菜单</a> |
-        <a href='{$menuAddUrl}?parent_id={$item['parent_id']}&id={$item['id']}'>编辑</a> |
+        <a href='{$menuAddUrl}?parent_id={$item['id']}'>添加子菜单</a>&nbsp;
+        <a href='{$menuAddUrl}?parent_id={$item['parent_id']}&id={$item['id']}'>编辑</a>&nbsp;
         <a href='javascript:void(0);' class="a-post" post-url="{$menuAddUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
     </td>
 </tr>
@@ -32,13 +32,13 @@ STR;
 }
 
 return <<<DDD
-<a href="{$menuListUrl}">菜单列表</a>
+<span onclick="javascript:window.location.href='{$menuListUrl}'">菜单列表</span>
 <a href="{$menuAddUrl}">增加菜单</a>
 <br><br>
 <table class="table">
     <thead>
     <tr>
-        <th>id</th>
+        <th class="id_width">id</th>
         <th>排序</th>
         <th>菜单名称</th>
         <th>应用</th>
@@ -46,7 +46,7 @@ return <<<DDD
         <th>方法</th>
         <th>参数</th>
         <th>状态</th>
-        <th width="180">操作</th>
+        <th>操作</th>
     </tr>
     </thead>
     <tbody>

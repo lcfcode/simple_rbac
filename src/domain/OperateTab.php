@@ -10,6 +10,7 @@ class OperateTab
 {
     /**
      * @var \authmng\utils\DriveInterface
+     * mongodb的原因 没有做关联查询
      */
     private $db = null;
     private $config;

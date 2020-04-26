@@ -302,4 +302,21 @@ class Views
         return require __DIR__ . '/view/adminAdd.phtml';
     }
 
+    public function roleAdmin($save = [])
+    {
+        $param = !empty($save) ? $save : $_GET;
+        $roleId = isset($param['role_id']) ? trim($param['role_id']) : '';
+        if (empty($roleId)) {
+            trigger_error('没有角色id', E_USER_ERROR);
+        }
+        $adminList = $this->getOperateTab()->roleAdminVerify(['role_id' => $roleId]);
+        if ($adminList) {
+            foreach ($adminList as &$rows) {
+                $adminInfo = $this->getOperateTab()->adminListById($rows['admin_id']);
+                $rows['nickname'] = isset($adminInfo['nickname']) ? $adminInfo['nickname'] : '';
+                $rows['name'] = isset($adminInfo['name']) ? $adminInfo['name'] : '';
+            }
+        }
+        return require __DIR__ . '/view/roleAdmin.phtml';
+    }
 }

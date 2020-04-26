@@ -32,12 +32,12 @@ if ($role) {
 
 return <<<HTML
 <a href="{$adminUrl}">管理员列表</a>
-<a href="javascript:void(0);">管理员编辑</a>
+<span>管理员编辑</span>
 <form method="post">
     <table class="table">
         <tbody>
         <tr>
-            <th>管理员昵称</th>
+            <td class="id_width">管理员昵称</td>
             <td>
                 <input type="text" name="nickname"
                        value="{$list['nickname']}">
@@ -45,7 +45,7 @@ return <<<HTML
             </td>
         </tr>
         <tr>
-            <th>密码</th>
+            <td>密码</td>
             <td>
                 <input type="password" name="passwd"
                        value="">
@@ -53,7 +53,7 @@ return <<<HTML
             </td>
         </tr>
         <tr>
-            <th>手机号码</th>
+            <td>手机号码</td>
             <td>
                 <input type="tel" name="phone"
                        value="{$list['phone']}" maxlength="11">
@@ -61,7 +61,7 @@ return <<<HTML
             </td>
         </tr>
         <tr>
-            <th>姓名</th>
+            <td>姓名</td>
             <td>
                 <input type="text" name="name"
                        value="{$list['name']}">
@@ -69,13 +69,13 @@ return <<<HTML
             </td>
         </tr>
         <tr>
-            <th>角色</th>
+            <td>角色</td>
             <td>
                 {$_str}
             </td>
         </tr>
         <tr>
-            <th>状态</th>
+            <td>状态</td>
             <td>
                 <input type="radio" name="status"
                        value="1" {$status1}> 有效

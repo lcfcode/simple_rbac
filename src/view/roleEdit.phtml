@@ -16,13 +16,13 @@ if ($list['status']) {
 
 return <<<STR
 <a href="{$roleUrl}">角色列表</a>
-<a href="javascript:void(0);">角色编辑</a>
+<span>角色编辑</span>
 <br>
 <form method="post">
     <table class="table">
         <tbody>
         <tr>
-            <th>名称</th>
+            <td class="id_width">名称</td>
             <td>
                 <input type="text" name="name"
                        value="{$list['name']}">
@@ -30,13 +30,13 @@ return <<<STR
             </td>
         </tr>
         <tr>
-            <th>备注</th>
+            <td>备注</td>
             <td>
                 <textarea name="remark">{$list['remark']}</textarea>
             </td>
         </tr>
         <tr>
-            <th>状态</th>
+            <td>状态</td>
             <td>
                 <input type="radio" name="status"
                        value="1" {$status1}> 有效

@@ -1,0 +1,49 @@
+<?php
+//移除警告
+/** @var string $adminAddUrl */
+/** @var array $info */
+
+$adminAddUrl = $this->url . 'adminAdd';
+
+$_str = '';
+if ($info) {
+    foreach ($info as $item) {
+        $status = $item['status'] == 1 ? '有效' : '无效';
+        $_str .= <<<DDD
+<tr>
+    <td>{$item['id']}</td>
+    <td>{$item['nickname']}</td>
+    <td>{$item['name']}</td>
+    <td>{$item['phone']}</td>
+    <td>{$item['role_name']}</td>
+    <td>{$status}</td>
+    <td>
+        <a href="{$adminAddUrl}?id={$item['id']}">编辑</a>
+        <a href='javascript:void(0);' class="a-post" post-url="{$adminAddUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
+    </td>
+</tr>
+DDD;
+    }
+}
+
+return <<<HTML
+<a href="javascript:void(0);">管理员列表</a>
+<a href="{$adminAddUrl}">管理员增加</a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th width="5%">ID</th>
+        <th>昵称</th>
+        <th>姓名</th>
+        <th>手机号码</th>
+        <th>权限</th>
+        <th>状态</th>
+        <th width="180">操作</th>
+    </tr>
+    </thead>
+    {$_str}
+    <tbody>
+    </tbody>
+</table>
+HTML;

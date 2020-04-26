@@ -17,7 +17,7 @@ class Views
     public function __construct($config, $url)
     {
         $this->config = $config;
-        $this->url = $url;
+        $this->url = rtrim($url, '/') . '/';
     }
 
     private function getOperateTab()

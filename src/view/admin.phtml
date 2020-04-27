@@ -19,7 +19,7 @@ if ($info) {
     <td>{$status}</td>
     <td>
         <a href="{$adminAddUrl}?id={$item['id']}">编辑</a>&nbsp;
-        <a href='javascript:void(0);' class="a-post" post-url="{$adminAddUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
+        <a href='javascript:void(0);' class="_authmng-delete" post-url="{$adminAddUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
     </td>
 </tr>
 DDD;
@@ -33,7 +33,7 @@ return <<<HTML
 <table class="table">
     <thead>
     <tr>
-        <th class="id_width">ID</th>
+        <th class="_authmng-id-width">ID</th>
         <th>昵称</th>
         <th>姓名</th>
         <th>手机号码</th>

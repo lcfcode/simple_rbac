@@ -86,7 +86,7 @@ class Views
             $id = (string)$id;
         }
         $nbsp = '&nbsp;&nbsp;';
-        $slice = $flag == true ? '<span class="font_color">├</span>' : '├';
+        $slice = $flag == true ? '<span class="_authmng-font-color">├</span>' : '├';
         foreach ($arr as $rows) {
             if ($rows['parent_id'] == $id) {
                 $ids = $rows['id'];
@@ -152,7 +152,7 @@ class Views
     {
         $divHead = '<div class="authorize_check" style="border: solid 1px #ddd;margin: 5px 10px">';
         $divFoot = '</div>';
-        $spanHead = '<span class="first_bg" style="display: inline-block;width: 100%;">';
+        $spanHead = '<span class="_authmng-first-bg" style="display: inline-block;width: 100%;">';
         $spanFoot = ' </span>';
         $inputChild = '<input class="authorize_checkbox" name="menu_id[]" parent="0" type="checkbox" value="';
         $inputParent = '<input class="authorize_checkbox" name="menu_id[]" parent="1" type="checkbox" value="';
@@ -215,7 +215,7 @@ class Views
         $divHead = '<div class="authorize_check" style="border-top: solid 1px #ddd">';
         $divFoot = '</div>';
         $nbsp = '&nbsp;&nbsp;';
-        $panHead = '<span class="first_bg" style="display: inline-block;width: 100%;">';
+        $panHead = '<span class="_authmng-first-bg" style="display: inline-block;width: 100%;">';
         $inputChild = '<input class="authorize_checkbox" name="menu_id[]" parent="0" type="checkbox" value="';
         $inputParent = '<input class="authorize_checkbox" name="menu_id[]" parent="1" type="checkbox" value="';
         $inputBody = '" ';

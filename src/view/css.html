@@ -51,15 +51,15 @@
         padding: 3px 15px;
     }
 
-    .font_color {
+    ._authmng-font-color {
         color: #ff0000;
     }
 
-    .first_bg {
+    ._authmng-first-bg {
         background: #bfb8b7;
     }
 
-    .id_width {
+    ._authmng-id-width {
         width: 320px;
     }
 
@@ -68,7 +68,7 @@
 <script>
     $(function () {
         var click_flag = true;
-        $(".ajax-post").unbind('click').click(function () {
+        $("._authmng-submit").unbind('click').click(function () {
             var post_url, list_url;
             var d = $(this).parents('form');
             post_url = $(this).attr('post_url');
@@ -98,7 +98,7 @@
             });
         });
         //a标签post提交
-        $('.a-post').click(function () {
+        $('._authmng-delete').click(function () {
             var msg = $(this).attr('post-msg');
             if (msg) {
                 if (!confirm(msg)) {
@@ -145,7 +145,7 @@
             });
         });
         //菜单顺序
-        $('.menu_sort').unbind('change').change(function () {
+        $('._authmng-menu-sort').unbind('change').change(function () {
             var sort = $(this).val(), that_id = $(this).attr('that_id');
             if (!that_id) {
                 return false;

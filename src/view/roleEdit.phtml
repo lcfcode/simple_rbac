@@ -22,7 +22,7 @@ return <<<STR
     <table class="table">
         <tbody>
         <tr>
-            <td class="id_width">名称</td>
+            <td class="_authmng-id-width">名称</td>
             <td>
                 <input type="text" name="name"
                        value="{$list['name']}">
@@ -50,7 +50,7 @@ return <<<STR
 
     <div>
         <input type="hidden" name="id" value="{$list['id']}">
-        <button type="button" class="ajax-post" post_url="{$addUrl}" list_url="{$roleUrl}">
+        <button type="button" class="_authmng-submit" post_url="{$addUrl}" list_url="{$roleUrl}">
             保存
         </button>
         <button type="button" onclick="javascript:history.go(-1)">返回</button>

@@ -9,12 +9,12 @@ $_str = '';
 if ($info) {
     foreach ($info as $item) {
         $status = $item['is_show'] == 1 ? '开启' : '隐藏';
-        $bg = $item['parent_id'] == '0' ? 'class="first_bg"' : '';
+        $bg = $item['parent_id'] == '0' ? 'class="_authmng-first-bg"' : '';
         $ids = ($item['parent_id'] == '0' && empty($menuId)) ? '<a target="_blank" href="' . $menuListUrl . '?id=' . $item['id'] . '">' . $item['id'] . '</a>' : $item['id'];
         $_str .= <<<STR
 <tr {$bg}>
     <td patent_id="{$item['parent_id']}">{$ids}</td>
-    <td><input class="menu_sort" type="tel" style="width: 70px" value="{$item['sort']}" that_id="{$item['id']}"></td>
+    <td><input class="_authmng-menu-sort" type="tel" style="width: 70px" value="{$item['sort']}" that_id="{$item['id']}"></td>
     <td>{$item['name']}</td>
     <td>{$item['app']}</td>
     <td>{$item['control']}</td>
@@ -24,7 +24,7 @@ if ($info) {
     <td>
         <a href='{$menuAddUrl}?parent_id={$item['id']}'>添加子菜单</a>&nbsp;
         <a href='{$menuAddUrl}?parent_id={$item['parent_id']}&id={$item['id']}'>编辑</a>&nbsp;
-        <a href='javascript:void(0);' class="a-post" post-url="{$menuAddUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
+        <a href='javascript:void(0);' class="_authmng-delete" post-url="{$menuAddUrl}?id={$item['id']}&flag=d" post-msg="确定删除?">删除</a>
     </td>
 </tr>
 STR;
@@ -38,7 +38,7 @@ return <<<DDD
 <table class="table">
     <thead>
     <tr>
-        <th class="id_width">id</th>
+        <th class="_authmng-id-width">id</th>
         <th>排序</th>
         <th>菜单名称</th>
         <th>应用</th>

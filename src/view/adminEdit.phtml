@@ -37,7 +37,7 @@ return <<<HTML
     <table class="table">
         <tbody>
         <tr>
-            <td class="id_width">管理员昵称</td>
+            <td class="_authmng-id-width">管理员昵称</td>
             <td>
                 <input type="text" name="nickname"
                        value="{$list['nickname']}">
@@ -89,7 +89,7 @@ return <<<HTML
 
     <div>
         <input type="hidden" name="id" value="{$list['id']}">
-        <button type="button" class="ajax-post" post_url="{$addUrl}" list_url="{$adminUrl}">
+        <button type="button" class="_authmng-submit" post_url="{$addUrl}" list_url="{$adminUrl}">
             保存
         </button>
         <button type="button" onclick="javascript:history.go(-1)">返回</button>

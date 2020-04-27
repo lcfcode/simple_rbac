@@ -24,7 +24,7 @@ return <<<STR
 </form>
 <script>
     $(function () {
-        $(".authorize_checkbox").unbind('click').click(function (e) {
+        $("._authmng-authorize-checkbox").unbind('click').click(function (e) {
             var is = $(this).prop('checked');
             var parent = $(this).attr('parent');
             var that;
@@ -40,7 +40,7 @@ return <<<STR
                     $(this).prop("checked", false);
                 }
             });
-            var parent = $(this).parents('.authorize_check');
+            var parent = $(this).parents('._authmng-authorize-check');
             for (var i = 0; i < parent.length; i++) {
                 if (is) {
                     $($(parent[i]).find('input[type="checkbox"]').get(0)).prop("checked", true);

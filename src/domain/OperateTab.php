@@ -6,6 +6,13 @@ use authmng\utils\MongoClass;
 use authmng\utils\MysqliClass;
 use authmng\utils\Tools;
 
+/**
+ * Class OperateTab
+ * @package authmng\domain
+ * @author LCF
+ * @date
+ * 使用到的db的统一操作
+ */
 class OperateTab
 {
     /**

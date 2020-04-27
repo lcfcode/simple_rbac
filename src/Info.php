@@ -13,27 +13,59 @@ class Info
      */
     private $operateTab;
 
+    /**
+     * Info constructor.
+     * @param $config array 数据配置
+     */
     public function __construct($config)
     {
         $this->operateTab = new OperateTab($config);
     }
 
+    /**
+     * @param array $where
+     * @return array
+     * @author LCF
+     * @date 2020/4/27 10:08
+     * 菜单列表
+     */
     public function menuList($where = [])
     {
         return $this->operateTab->menuList($where);
     }
 
+    /**
+     * @param array $where
+     * @return array
+     * @author LCF
+     * @date 2020/4/27 10:08
+     * 角色列表
+     */
     public function roleList($where = [])
     {
         return $this->operateTab->roleList($where);
     }
 
+    /**
+     * @param array $where
+     * @return array
+     * @author LCF
+     * @date 2020/4/27 10:08
+     * 管理员列表
+     */
     public function adminList($where = [])
     {
         return $this->operateTab->adminList($where);
     }
 
-    //验证url权限
+    /**
+     * @param $adminId
+     * @param $url
+     * @return bool
+     * @author LCF
+     * @date 2020/4/27 10:09
+     * 验证url权限
+     */
     public function auth($adminId, $url)
     {
         if ('admin' == $adminId) {
@@ -72,11 +104,65 @@ class Info
         return $flag;
     }
 
+    /**
+     * @param $nickname
+     * @param $password
+     * @return array|bool|mixed
+     * @author LCF
+     * @date 2020/4/27 10:09
+     * 登录
+     */
     public function login($nickname, $password)
     {
         return $this->operateTab->loginVerify($nickname, $password);
     }
 
+    /**
+     * @param $adminId
+     * @return array
+     * @author LCF
+     * @date 2020/4/27 10:10
+     * 获取某个管理员拥有的菜单
+     */
+    public function getMenu($adminId)
+    {
+        if ('admin' == $adminId) {
+            return $this->operateTab->menuList(['is_show' => '1']);
+        }
+        $roleList = $this->operateTab->roleAdminVerify(['admin_id' => $adminId]);
+        if (empty($roleList)) {
+            trigger_error('没有授权信息', E_USER_ERROR);
+        }
+        $menuTmpArr = [];
+        foreach ($roleList as $roleId) {
+            //先判断角色是否有效
+            $status = $this->operateTab->roleVerify(['id' => $roleId['role_id'], 'status' => '1']);
+            if (empty($status)) {
+                continue;
+            }
+            $menus = $this->operateTab->authAccessVerify(['role_id' => $roleId['role_id']]);
+            foreach ($menus as $item) {
+                $menuTmpArr[$item['menu_id']] = $item['menu_id'];
+            }
+        }
+        //处理不需要验证的菜单
+//        $noVerifyMenu = $this->operateTab->menuList(['is_show' => '1', 'type' => '0']);
+//        foreach ($noVerifyMenu as $items) {
+//            $menuTmpArr[$items['id']] = $items['id'];
+//        }
+        if (empty($menuTmpArr)) {
+            trigger_error('没有授权菜单信息', E_USER_ERROR);
+        }
+        return $this->operateTab->menuWhereIn($menuTmpArr);
+    }
+
+    /**
+     * @param $adminId
+     * @return array
+     * @author LCF
+     * @date 2020/4/27 10:09
+     * bui使用的菜单结构，本人使用的
+     */
     public function getBuiList($adminId)
     {
         $menuArr = $this->getMenu($adminId);
@@ -123,37 +209,5 @@ class Info
             $first++;
         }
         return [$pageList, $menuList];
-    }
-
-    public function getMenu($adminId)
-    {
-        if ('admin' == $adminId) {
-            return $this->operateTab->menuList(['is_show' => '1']);
-        }
-        $roleList = $this->operateTab->roleAdminVerify(['admin_id' => $adminId]);
-        if (empty($roleList)) {
-            trigger_error('没有授权信息', E_USER_ERROR);
-        }
-        $menuTmpArr = [];
-        foreach ($roleList as $roleId) {
-            //先判断角色是否有效
-            $status = $this->operateTab->roleVerify(['id' => $roleId['role_id'], 'status' => '1']);
-            if (empty($status)) {
-                continue;
-            }
-            $menus = $this->operateTab->authAccessVerify(['role_id' => $roleId['role_id']]);
-            foreach ($menus as $item) {
-                $menuTmpArr[$item['menu_id']] = $item['menu_id'];
-            }
-        }
-        //处理不需要验证的菜单
-//        $noVerifyMenu = $this->operateTab->menuList(['is_show' => '1', 'type' => '0']);
-//        foreach ($noVerifyMenu as $items) {
-//            $menuTmpArr[$items['id']] = $items['id'];
-//        }
-        if (empty($menuTmpArr)) {
-            trigger_error('没有授权菜单信息', E_USER_ERROR);
-        }
-        return $this->operateTab->menuWhereIn($menuTmpArr);
     }
 }

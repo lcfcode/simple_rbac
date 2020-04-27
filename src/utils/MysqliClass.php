@@ -24,7 +24,6 @@ class MysqliClass implements DriveInterface
     private $_wheres = '';
     private $_orWheres = '';
     private $_bindValue = [];
-    private $_selfErrorNo = 6000;
     private $_sql = '';
     private $_sqlParameter;
 
@@ -56,7 +55,6 @@ class MysqliClass implements DriveInterface
         }
         $this->_connect = $conn;
     }
-
 
     public function insert($table, $data)
     {
@@ -131,16 +129,6 @@ class MysqliClass implements DriveInterface
         return false;
     }
 
-    /**
-     * @param $table
-     * @param $where
-     * @param array $order
-     * @param array $getInfo
-     * @return array|mixed
-     * @author LCF
-     * @date 2019/8/17 21:32
-     * 查询单条数据，一般用于登录类型的
-     */
     public function selectOne($table, $where, $order = [], $getInfo = ['*'])
     {
         $sql = 'select ' . implode(',', $getInfo) . ' from ' . $table;
@@ -166,17 +154,6 @@ class MysqliClass implements DriveInterface
         return [];
     }
 
-    /**
-     * @param $table
-     * @param array $order
-     * @param int $offset
-     * @param int $fetchNum
-     * @param array $getInfo
-     * @return array
-     * @author LCF
-     * @date 2019/8/17 21:33
-     * 查询所有数据
-     */
     public function selectAll($table, $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
     {
         $sql = 'select ' . implode(',', $getInfo) . ' from ' . $table;
@@ -195,18 +172,6 @@ class MysqliClass implements DriveInterface
         return $returnData;
     }
 
-    /**
-     * @param $table
-     * @param array $where
-     * @param array $order
-     * @param int $offset
-     * @param int $fetchNum
-     * @param array $getInfo
-     * @return array
-     * @author LCF
-     * @date 2019/8/17 21:33
-     * selectAll 方法 和 select 方法的合体
-     */
     public function selects($table, $where = [], $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
     {
         $sql = 'select ' . implode(',', $getInfo) . ' from ' . $table;
@@ -286,7 +251,17 @@ class MysqliClass implements DriveInterface
         return $returnData[0]['count'];
     }
 
+    public function close()
+    {
+        if ($this->_connect) {
+            $this->_connect->close();
+            $this->_connect = null;
+        }
+    }
 
+    //////////////////////////////////////////////////////////////////
+    /// 以下是私有函数
+    //////////////////////////////////////////////////////////////////
     private function _group($sql, $where = [])
     {
         if (!empty($where)) {
@@ -355,7 +330,7 @@ class MysqliClass implements DriveInterface
                 return 'd';
                 break;
         }
-        throw new \Exception('MysqliClass::_determineType exception , message : data type exception!', $this->_selfErrorNo);
+        return trigger_error('MysqliClass::_determineType exception , message : data type exception!', E_USER_ERROR);
     }
 
     /**
@@ -372,7 +347,7 @@ class MysqliClass implements DriveInterface
         $stmt = $this->_connect->prepare($sql);
         if (!$stmt) {
             $msg = $this->_connect->error . " --SQL: " . $sql;
-            throw new \Exception('MysqliClass::_prepare exception , message : ' . $msg, $this->_selfErrorNo);
+            trigger_error('MysqliClass::_prepare exception , message : ' . $msg, E_USER_ERROR);
         }
         return $stmt;
     }
@@ -439,14 +414,6 @@ class MysqliClass implements DriveInterface
             $orderArr[] = $orderKey . ' ' . $rowOrder;
         }
         return implode(',', $orderArr);
-    }
-
-    public function close()
-    {
-        if ($this->_connect) {
-            $this->_connect->close();
-            $this->_connect = null;
-        }
     }
 
     function __destruct()

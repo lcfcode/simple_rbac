@@ -352,7 +352,7 @@ class MysqliClass implements DriveInterface
         return $stmt;
     }
 
-    private static function refValues($data)
+    private function refValues($data)
     {
         $refs = [];
         foreach ($data as $key => $value) {

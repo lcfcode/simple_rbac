@@ -117,5 +117,16 @@ interface DriveInterface
      */
     public function count($table, $where = [], $columnName = '*', $distinct = false);
 
+    /**
+     * @param $table
+     * @param $multiInsertData
+     * @param array $keys
+     * @return bool|int
+     * @author LCF
+     * @date 2019/8/17 21:36
+     * 多条语句执行插入方法
+     */
+    public function insertMultiple($table, $multiInsertData, $keys = []);
+
     public function close();
 }

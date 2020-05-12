@@ -155,6 +155,7 @@ class Views
         }
         $menu = $this->getOperateTab()->menuList();
         $menus = Tools::getSubset($menu);
+        $menus = Tools::arraySort($menus, 'sort', SORT_ASC);
 //        $this->getAllMenu($menus, $menu);
 //        $strHtml = $this->authorizeHtml($menus, $chooseMenuIdArr);
         $strHtml = $this->getAauthorizeHtml($menu, $menus, $chooseMenuIdArr);

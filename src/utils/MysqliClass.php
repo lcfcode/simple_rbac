@@ -56,6 +56,14 @@ class MysqliClass implements DriveInterface
         $this->_connect = $conn;
     }
 
+    /**
+     * @param $table
+     * @param $data
+     * @return mixed
+     * @author LCF
+     * @date
+     * 数据插入
+     */
     public function insert($table, $data)
     {
         $sql = 'insert into ' . $table;
@@ -80,6 +88,15 @@ class MysqliClass implements DriveInterface
         return false;
     }
 
+    /**
+     * @param $table
+     * @param $data
+     * @param $where
+     * @return mixed
+     * @author LCF
+     * @date
+     * 数据更新
+     */
     public function update($table, $data, $where)
     {
         $sql = 'update ' . $table . ' set ';
@@ -106,6 +123,14 @@ class MysqliClass implements DriveInterface
         return false;
     }
 
+    /**
+     * @param $table
+     * @param $where
+     * @return mixed
+     * @author LCF
+     * @date
+     * 删除数据
+     */
     public function delete($table, $where)
     {
         $sql = 'delete from ' . $table;
@@ -129,6 +154,16 @@ class MysqliClass implements DriveInterface
         return false;
     }
 
+    /**
+     * @param $table
+     * @param $where
+     * @param array $order
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * 根据条件查询单条数据
+     */
     public function selectOne($table, $where, $order = [], $getInfo = ['*'])
     {
         $sql = 'select ' . implode(',', $getInfo) . ' from ' . $table;
@@ -154,6 +189,17 @@ class MysqliClass implements DriveInterface
         return [];
     }
 
+    /**
+     * @param $table
+     * @param array $order
+     * @param int $offset
+     * @param int $fetchNum
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * 查询所有数据
+     */
     public function selectAll($table, $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
     {
         $sql = 'select ' . implode(',', $getInfo) . ' from ' . $table;
@@ -172,6 +218,18 @@ class MysqliClass implements DriveInterface
         return $returnData;
     }
 
+    /**
+     * @param $table
+     * @param array $where
+     * @param array $order
+     * @param int $offset
+     * @param int $fetchNum
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * 查询所有数据，添加条件
+     */
     public function selects($table, $where = [], $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
     {
         $sql = 'select ' . implode(',', $getInfo) . ' from ' . $table;
@@ -203,6 +261,20 @@ class MysqliClass implements DriveInterface
         return $returnData;
     }
 
+    /**
+     * @param $table
+     * @param $field
+     * @param $inWhere
+     * @param array $where
+     * @param array $order
+     * @param int $offset
+     * @param int $fetchNum
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * whereIn操作
+     */
     public function selectIn($table, $field, $inWhere, $where = [], $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
     {
         $sql = 'select ' . implode(',', $getInfo) . ' from ' . $table;
@@ -240,6 +312,16 @@ class MysqliClass implements DriveInterface
         return $returnData;
     }
 
+    /**
+     * @param $table
+     * @param array $where
+     * @param string $columnName
+     * @param bool $distinct
+     * @return mixed
+     * @author LCF
+     * @date
+     * 统计数量
+     */
     public function count($table, $where = [], $columnName = '*', $distinct = false)
     {
         if ($distinct) {
@@ -249,6 +331,61 @@ class MysqliClass implements DriveInterface
         }
         $returnData = $this->_group($sql, $where);
         return $returnData[0]['count'];
+    }
+
+    /**
+     * @param $table
+     * @param $multiInsertData
+     * @param array $keys
+     * @return bool|int
+     * @author LCF
+     * @date 2019/8/17 21:36
+     * 多条语句执行插入方法
+     */
+    public function insertMultiple($table, $multiInsertData, $keys = [])
+    {
+        $sql = 'insert into ' . $table;
+        $keyArr = [];
+        $valueArr = [];
+        $bindType = '';
+        $sqlTemp = '';
+        $index = 0;
+        foreach ($multiInsertData as $data) {
+            if (empty($data)) {
+                continue;
+            }
+            $tmpArr = [];
+            foreach ($data as $key => $value) {
+                if ($index == 0) {
+                    $keyArr[] = $key;
+                }
+                $tmpArr[] = '?';
+                $valueArr[] =& $data[$key];
+                $bindType .= $this->_determineType($value);
+            }
+            $values = implode(',', $tmpArr);
+            $sqlTemp .= '(' . $values . '),';
+            $index++;
+        }
+        $sqlTemp = rtrim($sqlTemp, ',');
+        if (empty($keys)) {
+            $keys = implode(',', $keyArr);
+        }
+        $sql .= ' (' . $keys . ') values ' . $sqlTemp;
+        $bindValue = $valueArr;
+        $args[] = $bindType;
+        $parameter = array_merge($args, $bindValue);
+        $stmt = $this->_prepare($sql, $parameter);
+        call_user_func_array([$stmt, 'bind_param'], self::refValues($parameter));
+        $stmt->execute();
+        $affectedRows = $stmt->affected_rows;
+        $stmt->free_result();
+        $stmt->close();
+        $this->clear();
+        if ($affectedRows > 0) {
+            return $affectedRows;
+        }
+        return false;
     }
 
     public function close()

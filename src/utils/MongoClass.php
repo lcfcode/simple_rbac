@@ -59,17 +59,102 @@ class MongoClass implements DriveInterface
         $this->_dbName = $config['database'];
     }
 
-    public function count($table, $where = [], $columnName = '*', $distinct = false)
+    /**
+     * @param $table
+     * @param $data
+     * @return mixed
+     * @author LCF
+     * @date
+     * 数据插入
+     */
+    public function insert($table, $data)
     {
-        $arr = [
-            'count' => $table,
-            'query' => $this->_and($where)
-        ];
-        $cmd = new \MongoDB\Driver\Command($arr);
-        $cursor = $this->_connect->executeCommand($this->_dbName, $cmd);
-        return $cursor->toArray()[0]->n;
+        $bulk = new \MongoDB\Driver\BulkWrite;
+        $bulk->insert($data);
+        return $this->_connect->executeBulkWrite($this->_dbName . '.' . $table, $bulk)->getInsertedCount();
     }
 
+    /**
+     * @param $table
+     * @param $data
+     * @param $where
+     * @return mixed
+     * @author LCF
+     * @date
+     * 数据更新
+     */
+    public function update($table, $data, $where)
+    {
+        $bulk = new \MongoDB\Driver\BulkWrite;
+        $bulk->update($this->_and($where), ['$set' => $data], ['multi' => true, 'upsert' => false]);
+        $writeConcern = new \MongoDB\Driver\WriteConcern(\MongoDB\Driver\WriteConcern::MAJORITY, 1000);
+        return $this->_connect->executeBulkWrite($this->_dbName . '.' . $table, $bulk, $writeConcern)->getModifiedCount();
+    }
+
+    /**
+     * @param $table
+     * @param $where
+     * @return mixed
+     * @author LCF
+     * @date
+     * 删除数据
+     */
+    public function delete($table, $where)
+    {
+        $bulk = new \MongoDB\Driver\BulkWrite;
+        $filter = $this->_and($where);
+        $bulk->delete($filter);
+        return $this->_connect->executeBulkWrite($this->_dbName . '.' . $table, $bulk)->getDeletedCount();
+    }
+
+    /**
+     * @param $table
+     * @param $where
+     * @param array $order
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * 根据条件查询单条数据
+     */
+    public function selectOne($table, $where, $order = [], $getInfo = ['*'])
+    {
+        $options = $this->_order($order);
+        $options['limit'] = 1;
+        $query = new \MongoDB\Driver\Query($this->_and($where), $options);
+        $cursor = $this->_connect->executeQuery($this->_dbName . '.' . $table, $query);
+        $where = $cursor->toArray();
+        return isset($where[0]) ? get_object_vars($where[0]) : [];
+    }
+
+    /**
+     * @param $table
+     * @param array $order
+     * @param int $offset
+     * @param int $fetchNum
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * 查询所有数据
+     */
+    public function selectAll($table, $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
+    {
+        return $this->selects($table, [], $order, $offset, $fetchNum);
+    }
+
+    /**
+     * @param $table
+     * @param array $where
+     * @param array $order
+     * @param int $offset
+     * @param int $fetchNum
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * 查询所有数据，添加条件
+     */
     public function selects($table, $where = [], $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
     {
         $filter = $this->_and($where);
@@ -83,9 +168,23 @@ class MongoClass implements DriveInterface
         return $this->_result($cursor);
     }
 
-    public function selectIn($table, $field, $inWhere, $andWhere = [], $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
+    /**
+     * @param $table
+     * @param $field
+     * @param $inWhere
+     * @param array $where
+     * @param array $order
+     * @param int $offset
+     * @param int $fetchNum
+     * @param array $getInfo
+     * @return mixed
+     * @author LCF
+     * @date
+     * whereIn操作
+     */
+    public function selectIn($table, $field, $inWhere, $where = [], $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
     {
-        $filter = $this->_in($field, $inWhere, $andWhere);
+        $filter = $this->_in($field, $inWhere, $where);
         $options = $this->_order($order);
         if ($fetchNum > 0 && $offset > 0) {
             $options['skip'] = ($offset - 1) * $fetchNum;
@@ -96,42 +195,43 @@ class MongoClass implements DriveInterface
         return $this->_result($cursor);
     }
 
-    public function selectAll($table, $order = [], $offset = 0, $fetchNum = 0, $getInfo = ['*'])
+    /**
+     * @param $table
+     * @param array $where
+     * @param string $columnName
+     * @param bool $distinct
+     * @return mixed
+     * @author LCF
+     * @date
+     * 统计数量
+     */
+    public function count($table, $where = [], $columnName = '*', $distinct = false)
     {
-        return $this->selects($table, [], $order, $offset, $fetchNum);
+        $arr = [
+            'count' => $table,
+            'query' => $this->_and($where)
+        ];
+        $cmd = new \MongoDB\Driver\Command($arr);
+        $cursor = $this->_connect->executeCommand($this->_dbName, $cmd);
+        return $cursor->toArray()[0]->n;
     }
 
-    public function insert($table, $data)
+    /**
+     * @param $table
+     * @param $multiInsertData
+     * @param array $keys
+     * @return bool|int
+     * @author LCF
+     * @date 2019/8/17 21:36
+     * 多条语句执行插入方法
+     */
+    public function insertMultiple($table, $multiInsertData, $keys = [])
     {
         $bulk = new \MongoDB\Driver\BulkWrite;
-        $bulk->insert($data);
+        foreach ($multiInsertData as $data) {
+            $bulk->insert($data);
+        }
         return $this->_connect->executeBulkWrite($this->_dbName . '.' . $table, $bulk)->getInsertedCount();
-    }
-
-    public function delete($table, $where)
-    {
-        $bulk = new \MongoDB\Driver\BulkWrite;
-        $filter = $this->_and($where);
-        $bulk->delete($filter);
-        return $this->_connect->executeBulkWrite($this->_dbName . '.' . $table, $bulk)->getDeletedCount();
-    }
-
-    public function update($table, $data, $where)
-    {
-        $bulk = new \MongoDB\Driver\BulkWrite;
-        $bulk->update($this->_and($where), ['$set' => $data], ['multi' => true, 'upsert' => false]);
-        $writeConcern = new \MongoDB\Driver\WriteConcern(\MongoDB\Driver\WriteConcern::MAJORITY, 1000);
-        return $this->_connect->executeBulkWrite($this->_dbName . '.' . $table, $bulk, $writeConcern)->getModifiedCount();
-    }
-
-    public function selectOne($table, $where, $order = [], $getInfo = ['*'])
-    {
-        $options = $this->_order($order);
-        $options['limit'] = 1;
-        $query = new \MongoDB\Driver\Query($this->_and($where), $options);
-        $cursor = $this->_connect->executeQuery($this->_dbName . '.' . $table, $query);
-        $where = $cursor->toArray();
-        return isset($where[0]) ? get_object_vars($where[0]) : [];
     }
 
     public function close()
@@ -140,6 +240,7 @@ class MongoClass implements DriveInterface
             $this->_connect = null;
         }
     }
+
 
     //////////////////////////////////////////////////////////////////
     /// 以下是私有函数

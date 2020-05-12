@@ -187,7 +187,7 @@ class OperateTab
         $menuId = $post['menu_id'];
         $roleId = $post['role_id'];
         $this->getDb()->delete($this->roleMenuAccessTab, ['role_id' => $roleId]);
-        $resArr = [];
+        $allData = [];
         foreach ($menuId as $v) {
             $menus = isset($menu[$v]) ? $menu[$v] : [];
             if ($menus) {
@@ -197,10 +197,14 @@ class OperateTab
                     "menu_url" => $name,
                     'menu_id' => $v
                 ];
-                $resArr[] = $this->getDb()->insert($this->roleMenuAccessTab, $data);
+                $allData[] = $data;
             }
         }
-        return ['code' => 1, 'msg' => '保存成功', 'data' => $resArr];
+        $result = $this->getDb()->insertMultiple($this->roleMenuAccessTab, $allData);
+        if ($result) {
+            return ['code' => 1, 'msg' => '保存成功', 'data' => $result];
+        }
+        return ['code' => 0, 'msg' => '保存失败', 'data' => $result];
     }
 
     public function adminList($where = [])

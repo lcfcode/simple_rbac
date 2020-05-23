@@ -73,6 +73,10 @@ class OperateTab
             if (empty($data['id'])) {
                 return ['code' => 0, 'msg' => '参数错误', 'data' => null];
             }
+            $isChild = $this->getDb()->selectOne($this->menuTab, ['parent_id' => $data['id']]);
+            if ($isChild) {
+                return ['code' => 0, 'msg' => '还存在子菜单', 'data' => [$isChild]];
+            }
             $result = $this->getDb()->delete($this->menuTab, ['id' => $data['id']]);
             $resultRule = $this->getDb()->delete($this->menuRuleTab, ['menu_id' => $data['id']]);
             if ($result && $resultRule) {
@@ -223,10 +227,6 @@ class OperateTab
         if ('d' == $flag) {
             if (empty($post['id'])) {
                 return ['code' => 0, 'msg' => '参数错误', 'data' => null];
-            }
-            $isChild = $this->getDb()->selectOne($this->menuTab, ['parent_id' => $post['id']]);
-            if ($isChild) {
-                return ['code' => 0, 'msg' => '还存在子菜单', 'data' => [$isChild]];
             }
             $this->getDb()->delete($this->roleAdminTab, ['admin_id' => $post['id']]);
             $result = $this->getDb()->delete($this->adminTab, ['id' => $post['id']]);

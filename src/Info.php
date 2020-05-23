@@ -119,6 +119,21 @@ class Info
 
     /**
      * @param $adminId
+     * @param $password
+     * @return mixed
+     * @author LCF
+     * @date
+     * 单个管理员修改自己的密码
+     */
+    public function updatePwd($adminId, $password)
+    {
+        $data['passwd'] = password_hash(md5($password), PASSWORD_BCRYPT);
+        $data['update_date'] = date('Y-m-d H:i:s');
+        return $this->operateTab->updateAdmin(['id' => $adminId], $data);
+    }
+
+    /**
+     * @param $adminId
      * @return array
      * @author LCF
      * @date 2020/4/27 10:10

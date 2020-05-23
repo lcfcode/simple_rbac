@@ -320,4 +320,9 @@ class OperateTab
     {
         return $this->getDb()->selectIn($this->menuTab, 'id', $whereIn, ['is_show' => $status]);
     }
+
+    public function updateAdmin($where, $data)
+    {
+        return $this->getDb()->update($this->adminTab, $data, $where);
+    }
 }

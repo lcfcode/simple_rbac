@@ -27,10 +27,11 @@ DDD;
 }
 
 return <<<HTML
-<span>管理员列表</span>
-<a href="{$adminAddUrl}">管理员增加</a>
+<button class="_authmng-button">管理员列表</button>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$adminAddUrl}'">增加管理员</button>
+<br>
 
-<table class="table">
+<table class="_authmng-table">
     <thead>
     <tr>
         <th class="_authmng-id-width">ID</th>

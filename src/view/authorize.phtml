@@ -9,22 +9,24 @@ $roleUrl = $this->url . 'role';
 $addUrl = $this->url . 'authorize';
 
 return <<<STR
-<a href="{$roleUrl}">角色列表</a>
-<span>角色授权</span>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$roleUrl}'">角色列表</button>
+<button class="_authmng-button">角色授权</button>
+<br>
+<br>
 <form method="post">
 {$strHtml}
 <br>
 <div>
-    <button type="button" class="_authmng-submit" post_url="{$addUrl}" list_url="{$roleUrl}">
+    <button type="button" class="_authmng-submit _authmng-button" post_url="{$addUrl}" list_url="{$roleUrl}">
         保存
     </button>
     <input type="hidden" value="{$roleId}" name="role_id">
-    <button type="button" onclick="javascript:history.go(-1)">返回</button>
+    <button type="button" onclick="javascript:window.history.go(-1)" class="_authmng-button">返回</button>
 </div>
 </form>
 <script>
     $(function () {
-        $("._authmng-authorize-checkbox").unbind('click').click(function (e) {
+        $("._authmng-authorize-checkbox").off('click').on('click',function (e) {
             var is = $(this).prop('checked');
             var parent = $(this).attr('parent');
             var that;

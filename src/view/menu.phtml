@@ -14,7 +14,7 @@ if ($info) {
         $_str .= <<<STR
 <tr {$bg}>
     <td patent_id="{$item['parent_id']}">{$ids}</td>
-    <td><input class="_authmng-menu-sort" type="tel" style="width: 70px" value="{$item['sort']}" that_id="{$item['id']}"></td>
+    <td><input class="_authmng-menu-sort _authmng-menu-input" type="tel" value="{$item['sort']}" that_id="{$item['id']}"></td>
     <td>{$item['name']}</td>
     <td>{$item['app']}</td>
     <td>{$item['control']}</td>
@@ -32,10 +32,10 @@ STR;
 }
 
 return <<<DDD
-<span onclick="javascript:window.location.href='{$menuListUrl}'">菜单列表</span>
-<a href="{$menuAddUrl}">增加菜单</a>
-<br><br>
-<table class="table">
+<button class="_authmng-button" onclick="javascript:window.location.href='{$menuListUrl}'">菜单列表</button>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$menuAddUrl}'">增加菜单</button>
+<br>
+<table class="_authmng-table">
     <thead>
     <tr>
         <th class="_authmng-id-width">id</th>

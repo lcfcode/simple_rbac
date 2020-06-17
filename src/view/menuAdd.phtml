@@ -12,15 +12,18 @@ foreach ($upperLevel as $upperLevelRow) {
 }
 
 return <<<HTML
-<a href="{$menuUrl}">菜单列表</a>
-<span>增加菜单</span>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$menuUrl}'">菜单列表</button>
+<button class="_authmng-button">增加菜单</button>
+<br>
+<br>
+
 <form method="post">
-    <table class="table">
+    <table class="_authmng-table">
         <tbody>
         <tr>
-            <td class="_authmng-id-width">上级</th>
+            <td class="_authmng-add-width">上级</th>
             <td>
-                <select name="parent_id">
+                <select name="parent_id" class="_authmng-input">
                     <option value="0">/</option>
                    {$_str}
                 </select>
@@ -29,35 +32,35 @@ return <<<HTML
         <tr>
             <td>名称</td>
             <td>
-                <input type="text" name="name">
+                <input type="text" name="name" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>应用</td>
             <td>
-                <input type="text" name="app">
+                <input type="text" name="app" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>控制器</td>
             <td>
-                <input type="text" name="control">
+                <input type="text" name="control" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>方法</td>
             <td>
-                <input type="text" name="action">
+                <input type="text" name="action" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>参数</td>
             <td>
-                <input type="text" name="url_param">
+                <input type="text" name="url_param" class="_authmng-input">
                 <span>例:id=3&amp;cid=3</span>
             </td>
 
@@ -65,7 +68,7 @@ return <<<HTML
         <tr>
             <td>排序</td>
             <td>
-                <input type="text" name="sort">
+                <input type="text" name="sort" class="_authmng-input">
             </td>
         </tr>
          <tr>
@@ -85,14 +88,15 @@ return <<<HTML
         <tr>
             <td>备注</td>
             <td>
-                <textarea name="remark"></textarea>
+                <textarea name="remark" class="_authmng-textarea"></textarea>
             </td>
         </tr>
         </tbody>
     </table>
+    <br>
     <div>
-        <button type="button" class="_authmng-submit" post_url="{$addUrl}" list_url="{$menuUrl}">保存</button>
-        <button type="button" onclick="javascript:history.go(-1)">返回</button>
+        <button type="button" class="_authmng-submit _authmng-button" post_url="{$addUrl}" list_url="{$menuUrl}">保存</button>
+        <button type="button" onclick="javascript:window.history.go(-1)" class="_authmng-button">返回</button>
     </div>
 </form>
 HTML;

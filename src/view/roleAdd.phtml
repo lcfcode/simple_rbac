@@ -6,41 +6,42 @@ $addUrl = $this->url . 'roleAdd';
 $roleUrl = $this->url . 'role';
 
 return <<<STR
-<a href="{$roleUrl}">角色列表</a>
-<span>增加角色</span>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$roleUrl}'">角色列表</button>
+<button class="_authmng-button">增加角色</button>
+<br>
+<br>
 <form method="post">
-    <table class="table">
+    <table class="_authmng-table">
         <tbody>
         <tr>
-            <td class="_authmng-id-width">名称</td>
+            <td class="_authmng-add-width">名称</td>
             <td>
-                <input type="text" name="name"
-                       value="">
+                <input type="text" name="name" value="" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>备注</td>
             <td>
-                <textarea name="remark"></textarea>
+                <textarea name="remark" class="_authmng-textarea"></textarea>
             </td>
         </tr>
         <tr>
             <td>状态</td>
             <td>
-                <input type="radio" name="status"
-                       value="1" checked> 有效
+                <input type="radio" name="status" value="1" checked> 有效
                 <input type="radio" name="status" value="0"> 无效
             </td>
         </tr>
 
         </tbody>
     </table>
+    <br>
     <div>
-        <button type="button" class="_authmng-submit" post_url="{$addUrl}" list_url="{$roleUrl}">
+        <button type="button" class="_authmng-submit _authmng-button" post_url="{$addUrl}" list_url="{$roleUrl}">
             保存
         </button>
-        <button type="button" onclick="javascript:history.go(-1)">返回</button>
+        <button type="button" onclick="javascript:window.history.go(-1)" class="_authmng-button">返回</button>
     </div>
 </form>
 STR;

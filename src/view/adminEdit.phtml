@@ -19,52 +19,57 @@ if ($list['status']) {
 
 $_str = '';
 if ($role) {
+    $i = 1;
     foreach ($role as $roleRow) {
-        if(in_array($roleRow['id'],$accessArr)){
-            $_str .= '&nbsp;<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]" checked >' . $roleRow['name'];
-        }else{
-            $_str .= '&nbsp;<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]">' . $roleRow['name'];
+        $nbsp = '&nbsp;';
+        if (1 == $i) {
+            $nbsp = '';
         }
+        if (in_array($roleRow['id'], $accessArr)) {
+            $_str .= $nbsp.'<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]" checked >' . $roleRow['name'];
+        } else {
+            $_str .= $nbsp.'<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]">' . $roleRow['name'];
+        }
+        $i++;
     }
 } else {
     $_str .= '没有添加权限信息';
 }
 
 return <<<HTML
-<a href="{$adminUrl}">管理员列表</a>
-<span>管理员编辑</span>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$adminUrl}'">管理员列表</button>
+<button class="_authmng-button">编辑管理员信息</button>
+<br>
+<br>
+
 <form method="post">
-    <table class="table">
+    <table class="_authmng-table">
         <tbody>
         <tr>
             <td class="_authmng-id-width">管理员昵称</td>
             <td>
-                <input type="text" name="nickname"
-                       value="{$list['nickname']}">
+                <input type="text" name="nickname"  value="{$list['nickname']}" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>密码</td>
             <td>
-                <input type="password" name="passwd"
-                       value="">
+                <input type="password" name="passwd" value="" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>手机号码</td>
             <td>
-                <input type="tel" name="phone"
-                       value="{$list['phone']}" maxlength="11">
+                <input type="tel" name="phone" value="{$list['phone']}" maxlength="11" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>姓名</td>
             <td>
-                <input type="text" name="name"
-                       value="{$list['name']}">
+                <input type="text" name="name" value="{$list['name']}" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
@@ -85,12 +90,13 @@ return <<<HTML
 
         </tbody>
     </table>
+    <br>
     <div>
         <input type="hidden" name="id" value="{$list['id']}">
-        <button type="button" class="_authmng-submit" post_url="{$addUrl}" list_url="{$adminUrl}">
+        <button type="button" class="_authmng-submit _authmng-button" post_url="{$addUrl}" list_url="{$adminUrl}">
             保存
         </button>
-        <button type="button" onclick="javascript:history.go(-1)">返回</button>
+        <button type="button" onclick="javascript:window.history.go(-1)" class="_authmng-button">返回</button>
     </div>
 </form>
 HTML;

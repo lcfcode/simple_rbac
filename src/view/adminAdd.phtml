@@ -8,48 +8,51 @@ $addUrl = $this->url . 'adminAdd';
 
 $_str = '';
 if ($role) {
+    $i = 1;
     foreach ($role as $roleRow) {
-        $_str .= '&nbsp;<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]">' . $roleRow['name'];
+        $nbsp = '&nbsp;';
+        if (1 == $i) {
+            $nbsp = '';
+        }
+        $_str .= $nbsp . '<input type="checkbox" value="' . $roleRow['id'] . '" name="role_id[]">' . $roleRow['name'];
     }
 } else {
     $_str .= '没有添加权限信息';
 }
 
 return <<<HTML
-<a href="{$adminUrl}">管理员列表</a>
-<span>增加管理员</span>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$adminUrl}'">管理员列表</button>
+<button class="_authmng-button">增加管理员</button>
+<br>
+<br>
 <form method="post">
-    <table class="table">
+    <table class="_authmng-table">
         <tbody>
         <tr>
-            <td class="_authmng-id-width">管理员昵称</td>
+            <td class="_authmng-add-width">管理员昵称</td>
             <td>
-                <input type="text" name="nickname"
-                       value="">
+                <input type="text" name="nickname"  value="" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>密码</td>
             <td>
-                <input type="password" name="passwd"
-                       value="">
+                <input type="password" name="passwd" value="" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>手机号码</td>
             <td>
-                <input type="tel" name="phone"
-                       value="" maxlength="11">
+                <input type="tel" name="phone" value="" maxlength="11" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
         <tr>
             <td>姓名</td>
             <td>
-                <input type="text" name="name"
-                       value="">
+                <input type="text" name="name" value="" class="_authmng-input">
                 <span>*</span>
             </td>
         </tr>
@@ -62,19 +65,19 @@ return <<<HTML
         <tr>
             <td>状态</td>
             <td>
-                <input type="radio" name="status"
-                       value="1" checked> 有效
+                <input type="radio" name="status" value="1" checked> 有效
                 <input type="radio" name="status" value="0"> 无效
             </td>
         </tr>
 
         </tbody>
     </table>
+    <br>
     <div>
-        <button type="button" class="_authmng-submit" post_url="{$addUrl}" list_url="{$adminUrl}">
+        <button type="button" class="_authmng-submit _authmng-button" post_url="{$addUrl}" list_url="{$adminUrl}">
             保存
         </button>
-        <button type="button" onclick="javascript:history.go(-1)">返回</button>
+        <button type="button" onclick="javascript:window.history.go(-1)" class="_authmng-button">返回</button>
     </div>
 </form>
 HTML;

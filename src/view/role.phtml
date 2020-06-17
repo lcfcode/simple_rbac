@@ -33,10 +33,11 @@ STT;
 
 
 return <<<STR
-<span>角色列表</span>
-<a href="{$addRoleUrl}">增加角色</a>
+<button class="_authmng-button">角色列表</button>
+<button class="_authmng-button-act" onclick="javascript:window.location.href='{$addRoleUrl}'">增加角色</button>
+<br>
 
-<table class="table">
+<table class="_authmng-table">
     <thead>
     <tr>
         <th class="_authmng-id-width">ID</th>

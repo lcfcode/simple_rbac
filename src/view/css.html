@@ -1,8 +1,9 @@
 <style>
-    ._authmng-null{
+    ._authmng-null {
         height: 10px;
         width: 100%;
     }
+
     ._authmng-button-act {
         color: #fff;
         background-color: #5cb85c;
@@ -118,6 +119,7 @@
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     }
+
     ._authmng-menu-input {
         width: 70px;
         vertical-align: middle;
@@ -138,12 +140,14 @@
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     }
+
     ._authmng-menu-input:focus {
         border-color: #66afe9;
         outline: 0;
         -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
     }
+
     ._authmng-table {
         border-collapse: collapse;
         border-spacing: 0;
@@ -181,16 +185,19 @@
     ._authmng-add-width {
         width: 150px;
     }
-    ._authmng-nav{
+
+    ._authmng-nav {
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
         border-bottom: 1px solid #ddd;
     }
-    ._authmng-nav-active{
+
+    ._authmng-nav-active {
 
     }
-    ._authmng-nav-active a{
+
+    ._authmng-nav-active a {
         color: #555;
         cursor: default;
         background-color: #fff;
@@ -198,11 +205,13 @@
         border-bottom-color: transparent;
         margin-bottom: -1px;
     }
-    ._authmng-nav li{
+
+    ._authmng-nav li {
         position: relative;
         display: inline-block;
     }
-    ._authmng-nav>li>a {
+
+    ._authmng-nav > li > a {
         /*margin-right: 2px;*/
         /*line-height: 1.42857143;*/
         /*border: 1px solid transparent;*/
@@ -221,7 +230,7 @@
 <script>
     $(function () {
         var click_flag = true;
-        $("._authmng-submit").unbind('click').click(function () {
+        $("._authmng-submit").off('click').on('click', function () {
             var post_url, list_url;
             var d = $(this).parents('form');
             post_url = $(this).attr('post_url');
@@ -251,7 +260,7 @@
             });
         });
         //a标签post提交
-        $('._authmng-delete').click(function () {
+        $('._authmng-delete').off('click').on('click', function () {
             var msg = $(this).attr('post-msg');
             if (msg) {
                 if (!confirm(msg)) {
@@ -298,7 +307,7 @@
             });
         });
         //菜单顺序
-        $('._authmng-menu-sort').unbind('change').change(function () {
+        $('._authmng-menu-sort').off('change').on('change', function () {
             var sort = $(this).val(), that_id = $(this).attr('that_id');
             if (!that_id) {
                 return false;

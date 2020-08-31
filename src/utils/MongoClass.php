@@ -22,6 +22,7 @@ class MongoClass implements DriveInterface
     ];
 
     private static $instances = [];
+    private static $instancesKey = '';
 
     /**
      * @param $config
@@ -31,12 +32,12 @@ class MongoClass implements DriveInterface
      */
     public static function getInstance($config)
     {
-        $ojbKey = $config['host'] . ':' . $config['port'] . ':' . $config['user'] . ':' . $config['database'];
-        if (isset(self::$instances[$ojbKey])) {
-            return self::$instances[$ojbKey];
+        self::$instancesKey = $config['host'] . ':' . $config['port'] . ':' . $config['user'] . ':' . $config['database'];
+        if (isset(self::$instances[self::$instancesKey])) {
+            return self::$instances[self::$instancesKey];
         }
-        self::$instances[$ojbKey] = new self($config);
-        return self::$instances[$ojbKey];
+        self::$instances[self::$instancesKey] = new self($config);
+        return self::$instances[self::$instancesKey];
     }
 
     /**
@@ -238,6 +239,9 @@ class MongoClass implements DriveInterface
     {
         if ($this->_connect) {
             $this->_connect = null;
+        }
+        if (isset(self::$instances[self::$instancesKey])) {
+            unset(self::$instances[self::$instancesKey]);
         }
     }
 

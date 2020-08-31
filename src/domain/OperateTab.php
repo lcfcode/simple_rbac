@@ -329,4 +329,10 @@ class OperateTab
     {
         return $this->getDb()->update($this->adminTab, $data, $where);
     }
+
+    public function __destruct()
+    {
+        //关闭掉链接，在swoole里面使用单例链接不会断开
+        $this->getDb()->close();
+    }
 }

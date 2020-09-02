@@ -38,7 +38,7 @@ class MysqliClass implements DriveInterface
      */
     public static function getInstance($config)
     {
-        return new self($config);//兼容swoole
+//        return new self($config);//兼容swoole
         self::$instancesKey = $config['host'] . ':' . $config['port'] . ':' . $config['user'] . ':' . $config['database'];
         if (isset(self::$instances[self::$instancesKey])) {
             return self::$instances[self::$instancesKey];
